@@ -8,7 +8,7 @@
 :root{
   --ink:#26405a; --ink2:#5b7d99; --ink3:#8fadc6;
   --accent:#6fa8d6; --accent-deep:#3d7ba8; --accent-lite:#bfe0f7;
-  --gold:#c8892e;
+  --gold:#c8892e; --gold-deep:#8a5a12; --gold-lite:#f5e2c4;
   --card:rgba(255,255,255,.74);
   --shadow:0 10px 34px rgba(96,146,196,.14);
   --shadow-s:0 4px 16px rgba(96,146,196,.10);
@@ -47,20 +47,20 @@ body{
 .brand{display:flex;align-items:center;gap:9px;flex:none}
 .mark{
   width:26px;height:26px;border-radius:9px;flex:none;
-  background:linear-gradient(140deg,#a9d5f5,#6fa8d6);
-  box-shadow:0 4px 12px rgba(111,168,214,.45);
+  background:linear-gradient(140deg,#ffd9a0,#c8892e);
+  box-shadow:0 4px 12px rgba(200,137,46,.35);
   position:relative;
 }
 .mark::after{
   content:'';position:absolute;inset:6px;
-  border-radius:4px;background:rgba(255,255,255,.75);
+  border-radius:4px;background:rgba(255,255,255,.78);
   clip-path:polygon(0 60%,50% 0,100% 60%,100% 100%,0 100%);
 }
 .brand-txt{line-height:1.1}
-.brand-txt b{font-size:14px;letter-spacing:.5px;font-weight:600}
+.brand-txt b{font-size:13.5px;letter-spacing:.3px;font-weight:700}
 .brand-txt i{
   display:block;font-style:normal;font-size:8.5px;
-  letter-spacing:1.6px;color:var(--ink3);text-transform:uppercase;margin-top:2px;
+  letter-spacing:1.4px;color:var(--ink3);text-transform:uppercase;margin-top:2px;
 }
 .tabs{display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none;padding:2px}
 .tabs::-webkit-scrollbar{display:none}
@@ -243,6 +243,142 @@ body{
 .ch-state.done{background:rgba(160,220,190,.28);color:#357a5c}
 .ch-state.now{background:linear-gradient(135deg,#ffe0b0,#ffc978);color:#8a5a12;font-weight:600}
 
+/* ── 羁绊面板 ── */
+.bond-hero{
+  display:flex;flex-direction:column;align-items:center;
+  padding:20px 0 16px;margin:-4px 0 16px;
+  border-radius:18px;
+  background:linear-gradient(180deg,rgba(255,240,214,.55),rgba(255,255,255,0) 92%);
+  position:relative;overflow:hidden;
+}
+.bond-hero::before{
+  content:'';position:absolute;inset:-40% -20% auto -20%;height:220px;
+  background:radial-gradient(ellipse at center,rgba(255,215,160,.40),transparent 70%);
+  pointer-events:none;
+}
+.bond-avatar{
+  width:96px;height:96px;border-radius:50%;
+  background:radial-gradient(circle at 34% 28%,#fff8ec,#f6d9a8 62%,#e8b96e);
+  border:3px solid var(--gold-lite);
+  display:flex;align-items:center;justify-content:center;
+  font-size:46px;
+  box-shadow:0 12px 32px rgba(200,137,46,.24),inset 0 -10px 22px rgba(200,137,46,.10);
+  animation:breathe 4.5s ease-in-out infinite;
+  position:relative;z-index:1;
+}
+@keyframes breathe{
+  0%,100%{transform:translateY(0) scale(1);}
+  50%{transform:translateY(-6px) scale(1.02);}
+}
+.bond-name{
+  margin-top:11px;font-size:14.5px;font-weight:800;
+  letter-spacing:3px;color:var(--gold-deep);position:relative;z-index:1;
+}
+.bond-mood{
+  margin-top:3px;font-size:11.5px;color:#b08d5e;
+  letter-spacing:1.2px;position:relative;z-index:1;
+}
+.bond-chat-wrap{min-height:50px;margin-bottom:14px;}
+.bond-bubble{
+  background:#fff;border:1px solid var(--line);
+  border-radius:16px 16px 16px 5px;
+  padding:13px 16px;margin-bottom:9px;
+  font-size:14.8px;line-height:1.85;color:var(--ink);
+  box-shadow:0 3px 12px rgba(96,146,196,.06);
+  animation:rise .34s cubic-bezier(.22,.9,.3,1) both;
+  max-width:94%;
+}
+.bond-bubble.me{
+  margin-left:auto;background:linear-gradient(140deg,#eef6fe,#e2eefb);
+  border-color:#cfe0f2;border-radius:16px 16px 5px 16px;color:#2f5170;
+}
+.bond-bubble .bb-who{
+  font-size:11.5px;font-weight:800;
+  letter-spacing:1px;margin-bottom:4px;
+}
+.bond-bubble .ori{display:block;}
+.bond-bubble .tr{
+  margin-top:9px;padding-top:9px;
+  border-top:1px dashed rgba(200,170,120,.5);
+  font-size:12.6px;line-height:1.75;color:#a08a68;
+}
+.bond-bubble .tr::before{
+  content:'中';font-size:9.5px;font-weight:700;
+  display:inline-block;vertical-align:1px;
+  margin-right:6px;padding:1px 5px;border-radius:5px;
+  background:rgba(240,200,140,.28);color:var(--gold-deep);
+}
+.bond-hint{
+  text-align:center;font-size:11.5px;color:#c4b28e;
+  letter-spacing:2px;padding:6px 0;
+  animation:hintPulse 2s ease-in-out infinite;
+}
+@keyframes hintPulse{0%,100%{opacity:.45;}50%{opacity:1;}}
+.bond-topics{display:flex;flex-direction:column;gap:8px;margin-top:6px;}
+.bond-topic{
+  font-family:inherit;text-align:left;
+  background:#fff;border:1px solid var(--line);border-radius:13px;
+  padding:12px 15px;font-size:14px;color:var(--ink);cursor:pointer;
+  transition:.16s;display:flex;align-items:center;
+  justify-content:space-between;gap:10px;
+}
+.bond-topic:hover{
+  background:#fffaf0;border-color:#e8c98c;transform:translateX(3px);
+}
+.bond-topic:active{transform:translateX(1px) scale(.99);}
+.bond-topic.locked{
+  opacity:.5;cursor:not-allowed;background:#fafafa;
+}
+.bond-topic.locked:hover{transform:none;background:#fafafa;border-color:var(--line);}
+.bond-topic .bt-txt{flex:1;min-width:0;}
+.bond-topic .bt-tag{
+  flex:0 0 auto;font-size:10.5px;padding:2px 8px;border-radius:999px;
+  background:#fff5e2;color:#c08c3a;border:1px solid #f0ddb8;font-weight:700;
+}
+.bond-topic.locked .bt-tag{background:#f2f2f2;color:#b9b9b9;border-color:#eaeaea;}
+
+/* ── 副本卡片 ── */
+.side-card{
+  display:flex;align-items:center;gap:12px;
+  background:#fff;border:1px solid var(--line);border-radius:16px;
+  padding:13px 14px;box-shadow:var(--shadow-s);transition:.2s;
+}
+.side-card:hover{border-color:rgba(140,190,230,.7);box-shadow:var(--shadow);}
+.side-main{
+  display:flex;align-items:center;gap:12px;flex:1;min-width:0;
+}
+.side-icon{
+  width:38px;height:38px;flex:none;border-radius:12px;
+  display:grid;place-items:center;
+  background:linear-gradient(140deg,#e6f0fd,#c5ddf6);
+  color:var(--accent-deep);font-size:16px;font-weight:700;
+}
+.side-meta{flex:1;min-width:0;}
+.side-meta b{
+  display:block;font-size:14px;color:var(--ink);font-weight:700;
+  margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.side-meta span{
+  display:block;font-size:11.5px;color:var(--ink3);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.side-actions{display:flex;gap:5px;flex:none;}
+.side-btn{
+  border:1px solid rgba(150,195,232,.45);
+  background:#fff;color:var(--ink2);
+  font-family:inherit;font-size:11.5px;
+  padding:6px 10px;border-radius:9px;cursor:pointer;
+  transition:.16s;
+}
+.side-btn:hover{background:var(--accent-lite);color:var(--accent-deep);border-color:var(--accent);}
+.side-btn.play{
+  background:linear-gradient(135deg,#a9d5f5,#6fa8d6);color:#fff;
+  border-color:transparent;font-weight:600;
+}
+.side-btn.play:hover{color:#fff;}
+.side-btn.danger{color:#a04a4a;border-color:rgba(240,170,170,.6);}
+.side-btn.danger:hover{background:rgba(240,170,170,.2);border-color:#d98b8b;}
+
 /* 结局卡 */
 .ed-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:9px}
 .ed-card{
@@ -346,6 +482,16 @@ body{
 .ov-card p{margin:0 0 22px;font-size:13px;line-height:1.9;color:var(--ink2)}
 .ov-card .btn{width:100%;margin-bottom:8px;display:block}
 
+/* Toast */
+#toast{
+  position:fixed;left:50%;bottom:92px;transform:translateX(-50%) translateY(10px);
+  background:rgba(40,60,90,.92);color:#fff;font-size:13px;
+  padding:9px 18px;border-radius:999px;letter-spacing:.5px;
+  opacity:0;pointer-events:none;transition:.3s;z-index:300;
+  box-shadow:0 8px 24px rgba(30,60,90,.24);
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
 @media(max-width:560px){
   .app{padding:9px;gap:8px}
   .brand-txt{display:none}
@@ -354,6 +500,8 @@ body{
   .narr{font-size:13.5px}
   .tab{padding:7px 8px;font-size:11.5px}
   .topbar{padding:7px 8px}
+  .side-card{flex-wrap:wrap;}
+  .side-actions{width:100%;justify-content:flex-end;}
 }
 </style>
 </head>
@@ -402,16 +550,19 @@ body{
 
     <section class="view" id="v-bond">
       <div class="panel">
-        <h2 class="p-title">羁绊 · 卡什</h2>
-        <p class="p-sub">和他的日常。这些互动不会推进主线，但会改变他对你的态度。</p>
-        <div class="ch-list" id="bondList"></div>
+        <div class="bond-hero" id="bondHero"></div>
+        <div class="bond-chat-wrap" id="bondChatWrap"></div>
+        <h2 class="p-title" style="margin-top:6px">可以聊的话题</h2>
+        <p class="p-sub">好感越高，能聊的就越多。第一次聊完会涨好感。</p>
+        <div class="bond-topics" id="bondTopics"></div>
       </div>
     </section>
 
     <section class="view" id="v-side">
       <div class="panel">
         <h2 class="p-title">彩蛋副本</h2>
-        <p class="p-sub">与主线无关的独立小故事。随时进来玩，随时走，什么都不影响。</p>
+        <p class="p-sub">与主线无关的独立小故事。随时进来玩，随时走，什么都不影响。<br>
+          可以在这里直接 <b>编辑</b>（载入工坊修改后覆盖）或 <b>删除</b> 副本。</p>
         <div class="ch-list" id="sideList"></div>
       </div>
     </section>
@@ -491,6 +642,8 @@ body{
   </div>
 </div>
 
+<div id="toast"></div>
+
 <script>
 (function(){
 'use strict';
@@ -500,6 +653,16 @@ const $  = s => document.querySelector(s);
 const $$ = s => Array.prototype.slice.call(document.querySelectorAll(s));
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const clone = o => JSON.parse(JSON.stringify(o));
+
+let _toastTimer = null;
+function toast(msg){
+  const el = document.getElementById('toast');
+  if(!el) return;
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => el.classList.remove('show'), 1800);
+}
 
 /* ══════════════════ 属性定义 ══════════════════ */
 const ATTR_DEF = {
@@ -525,18 +688,12 @@ const Game = {
   on(fn){ Game._listeners.push(fn); },
   _emit(){ Game._listeners.forEach(f => { try{ f(); }catch(e){} }); },
 
-  /**
-   * 注册 / 覆盖章节。
-   * 同一个 id 再次调用即为「覆盖更新」，在列表中的位置不变。
-   * mode: 'main'（默认，主线）| 'bond'（羁绊）| 'side'（副本）
-   */
   defineChapter(def){
     if(!def || !def.id) throw new Error('章节定义缺少 id 字段');
     if(!def.nodes || !def.start) throw new Error('章节 ' + def.id + ' 缺少 nodes 或 start');
     if(!Game.chapters[def.id]) Game.order.push(def.id);
     Game.chapters[def.id] = def;
 
-    // 清掉本章旧的结局元数据，再重新挂上
     Object.keys(Game.endings).forEach(id => {
       if(Game.endings[id].chapter === def.id) delete Game.endings[id];
     });
@@ -568,7 +725,6 @@ const Game = {
 };
 window.Game = Game;
 
-/* 章节筛选工具 */
 function chaptersByMode(mode){
   return Game.order.filter(id => {
     const c = Game.chapters[id];
@@ -583,9 +739,20 @@ function nextMainChapter(id){
   return list[i + 1] || null;
 }
 
-/* ══════════════════ 持久化：用户导入的章节代码 ══════════════════ */
-const DEF_KEY = 'tides_user_defs_v3';
-let userDefs = [];   // [{ key, label, code, ts }]
+/* ══════════════════ 持久化 ══════════════════ */
+const DEF_KEY = 'tides_user_defs_v4';
+const DEL_KEY = 'tides_deleted_v4';
+const BOND_KEY = 'tides_bond_seen_v4';
+const END_KEY  = 'tides_endings_v4';
+const PROG_KEY = 'tides_progress_v4';
+const SAVE_KEY = 'tides_save_v4';
+
+let userDefs = [];
+let deletedChapters = new Set();
+let bondSeen = new Set();
+let unlockedEndings = new Set();
+let progress = { completed: {} };
+let saveData = null;
 
 function loadUserDefs(){
   try{
@@ -598,22 +765,34 @@ function persistUserDefs(){
 }
 function applyUserDefs(){
   userDefs.forEach(rec => {
-    try{
-      new Function('Game', rec.code)(window.Game);
-    }catch(e){
-      console.warn('[tides] 用户章节加载失败:', rec.label, e);
-    }
+    try{ new Function('Game', rec.code)(window.Game); }
+    catch(e){ console.warn('[错误示范] 用户章节加载失败:', rec.label, e); }
+  });
+}
+function loadDeleted(){
+  try{
+    const raw = localStorage.getItem(DEL_KEY);
+    deletedChapters = raw ? new Set(JSON.parse(raw)) : new Set();
+  }catch(e){ deletedChapters = new Set(); }
+}
+function persistDeleted(){
+  try{ localStorage.setItem(DEL_KEY, JSON.stringify([...deletedChapters])); }catch(e){}
+}
+function applyDeleted(){
+  deletedChapters.forEach(id => {
+    if(Game.chapters[id]) Game.removeChapter(id);
   });
 }
 
-/* ══════════════════ 持久化：结局 & 进度 ══════════════════ */
-const END_KEY  = 'tides_endings_v3';
-const PROG_KEY = 'tides_progress_v3';
-const SAVE_KEY = 'tides_save_v3';
-
-let unlockedEndings = new Set();
-let progress = { completed: {} };
-let saveData = null;
+function loadBondSeen(){
+  try{
+    const raw = localStorage.getItem(BOND_KEY);
+    bondSeen = raw ? new Set(JSON.parse(raw)) : new Set();
+  }catch(e){ bondSeen = new Set(); }
+}
+function persistBondSeen(){
+  try{ localStorage.setItem(BOND_KEY, JSON.stringify([...bondSeen])); }catch(e){}
+}
 
 function loadStores(){
   try{
@@ -644,6 +823,9 @@ const S = {
 };
 let history = [];
 let autoTimer = null;
+
+/* 羁绊互动状态 */
+let bondChat = { lines: [], idx: 0, topicId: null };
 
 function freshAttrs(){
   const o = {};
@@ -876,7 +1058,6 @@ function finish(st){
   const ch = Game.chapters[S.chId] || {};
   const isMain = (ch.mode || 'main') === 'main';
   const isSide = ch.mode === 'side';
-  const isBond = ch.mode === 'bond';
 
   let title, desc, tag;
 
@@ -900,7 +1081,6 @@ function finish(st){
     persistProgress();
   }
 
-  // 组装弹层按钮
   const actions = [];
   const nxt = (!S.transient && isMain) ? nextMainChapter(S.chId) : null;
 
@@ -920,9 +1100,9 @@ function finish(st){
       fn: () => { hideOverlay(); startChapter(S.chId, { transient:true }); }
     });
     actions.push({
-      label: '返回目录',
+      label: '返回副本列表',
       cls: '',
-      fn: () => { hideOverlay(); setView(isSide ? 'side' : 'bond'); }
+      fn: () => { hideOverlay(); setView('side'); }
     });
   }else{
     actions.push({
@@ -937,7 +1117,7 @@ function finish(st){
     });
   }
   actions.push({
-    label: isSide ? '继续停留在此' : '继续停留在此',
+    label: '继续停留在此',
     cls: '',
     fn: hideOverlay
   });
@@ -1003,10 +1183,7 @@ function startChapter(chId, opts){
   S.awaiting = false;
   S.transient = !!opts.transient;
 
-  if(S.transient){
-    S.attrs = freshAttrs();
-    S.flags = {};
-  }else if(opts.freshAttrs){
+  if(S.transient || opts.freshAttrs){
     S.attrs = freshAttrs();
     S.flags = {};
   }
@@ -1065,7 +1242,7 @@ function setView(name){
   $$('.view').forEach(v => v.classList.toggle('is-on', v.id === 'v-' + name));
   $$('.tab').forEach(t => t.classList.toggle('is-on', t.dataset.view === name));
   if(name === 'chapters') renderChapterList();
-  if(name === 'bond')     renderBondList();
+  if(name === 'bond')     renderBondTab();
   if(name === 'side')     renderSideList();
   if(name === 'endings')  renderEndings();
   if(name === 'status')   renderStatus();
@@ -1115,26 +1292,103 @@ function renderChapterList(){
   });
 }
 
-function renderBondList(){
-  const box = $('#bondList');
-  box.innerHTML = '';
-  const ids = chaptersByMode('bond');
-  if(!ids.length){
-    box.innerHTML = '<p class="p-sub">还没有羁绊内容。可以在工坊里用 mode:\'bond\' 导入。</p>';
-    return;
+/* ══════════════════ 羁绊面板 ══════════════════ */
+function renderBondTab(){
+  const hero = $('#bondHero');
+  const wrap = $('#bondChatWrap');
+  const topicsBox = $('#bondTopics');
+  if(!hero) return;
+
+  const bond = Math.round(S.attrs.bond ?? 0);
+  let mood = '看起来还没睡醒';
+  if(bond >= 30) mood = '心情：今天你有点特别';
+  else if(bond >= 20) mood = '心情：想逗你';
+  else if(bond >= 12) mood = '心情：熟得刚刚好';
+  else if(bond >= 6) mood = '心情：有点好奇';
+  else if(bond >= 1) mood = '心情：普通的合租室友';
+
+  hero.innerHTML =
+    '<div class="bond-avatar">🦊</div>' +
+    '<div class="bond-name">卡什 · CASH</div>' +
+    '<div class="bond-mood">' + esc(mood) + ' · 好感 ' + bond + '</div>';
+
+  // 聊天气泡
+  if(!bondChat.lines.length){
+    wrap.innerHTML =
+      '<div class="bond-bubble">' +
+        '<div class="bb-who" style="color:' + whoColor('卡什') + '">卡什</div>' +
+        '<span class="ori">"Sup, roomie. Bored?"</span>' +
+        '<div class="tr">“咋了，室友？无聊了？”</div>' +
+      '</div>';
+  }else{
+    const shown = bondChat.lines.slice(0, bondChat.idx);
+    wrap.innerHTML = shown.map(l => {
+      const isMe = l.who === '你';
+      const c = whoColor(l.who);
+      let html = '<div class="bond-bubble' + (isMe ? ' me' : '') + '">';
+      html += '<div class="bb-who" style="color:' + c + '">' + esc(l.who) + '</div>';
+      if(l.tr){
+        html += '<span class="ori">' + esc(l.x) + '</span>';
+        html += '<div class="tr">' + esc(l.tr) + '</div>';
+      }else{
+        html += esc(l.x);
+      }
+      html += '</div>';
+      return html;
+    }).join('') +
+    (bondChat.idx < bondChat.lines.length
+      ? '<div class="bond-hint">轻触继续 ▾</div>'
+      : '<div class="bond-hint">— 聊完了 —</div>');
   }
-  ids.forEach((id, i) => {
-    const ch = Game.chapters[id];
-    box.appendChild(makeCard({
-      num: '♥',
-      title: ch.title || id,
-      sub: ch.subtitle || '',
-      state: '进入',
-      onClick: () => startChapter(id, { transient:true })
-    }));
+
+  // 话题列表
+  topicsBox.innerHTML = BOND_TOPICS.map(t => {
+    const locked = bond < t.need;
+    const seen = bondSeen.has(t.id);
+    const tag = locked ? ('需好感 ' + t.need) : (seen ? '已聊过' : 'NEW');
+    return '<button class="bond-topic' + (locked ? ' locked' : '') + '"' +
+      (locked ? ' disabled' : ' data-topic="' + t.id + '"') + '>' +
+      '<span class="bt-txt">' + esc(t.name) + '</span>' +
+      '<span class="bt-tag">' + tag + '</span>' +
+    '</button>';
+  }).join('');
+
+  // 绑定话题
+  topicsBox.querySelectorAll('.bond-topic').forEach(btn => {
+    btn.addEventListener('click', () => openBondTopic(btn.dataset.topic));
   });
 }
 
+function openBondTopic(id){
+  const t = BOND_TOPICS.find(x => x.id === id);
+  if(!t) return;
+  const bond = Math.round(S.attrs.bond ?? 0);
+  if(bond < t.need){ toast('好感不足，再刷刷主线吧'); return; }
+
+  const first = !bondSeen.has(id);
+  if(first){
+    bondSeen.add(id);
+    persistBondSeen();
+    if(t.reward){
+      S.attrs.bond = clamp('bond', (S.attrs.bond ?? 0) + t.reward);
+      renderHud();
+      toast('卡什好感 +' + t.reward);
+    }
+    save();
+  }
+
+  bondChat = { lines: t.lines.slice(), idx: 1, topicId: id };
+  renderBondTab();
+}
+
+function advanceBondChat(){
+  if(!bondChat.lines.length) return;
+  if(bondChat.idx >= bondChat.lines.length) return;
+  bondChat.idx++;
+  renderBondTab();
+}
+
+/* ══════════════════ 副本列表（可编辑 / 删除） ══════════════════ */
 function renderSideList(){
   const box = $('#sideList');
   box.innerHTML = '';
@@ -1143,18 +1397,85 @@ function renderSideList(){
     box.innerHTML = '<p class="p-sub">还没有副本。可以在工坊里用 mode:\'side\' 导入。</p>';
     return;
   }
-  ids.forEach((id, i) => {
+  ids.forEach(id => {
     const ch = Game.chapters[id];
-    box.appendChild(makeCard({
-      num: '✦',
-      title: ch.title || id,
-      sub: ch.subtitle || '',
-      state: '游玩',
-      onClick: () => startChapter(id, { transient:true })
-    }));
+    const card = document.createElement('div');
+    card.className = 'side-card';
+    card.innerHTML =
+      '<div class="side-main">' +
+        '<div class="side-icon">✦</div>' +
+        '<div class="side-meta">' +
+          '<b>' + esc(ch.title || id) + '</b>' +
+          '<span>' + esc(ch.subtitle || ('id: ' + id)) + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="side-actions">' +
+        '<button class="side-btn play" data-act="play">▶ 开始</button>' +
+        '<button class="side-btn" data-act="edit">编辑</button>' +
+        '<button class="side-btn danger" data-act="del">删除</button>' +
+      '</div>';
+
+    card.querySelector('[data-act="play"]').addEventListener('click', e => {
+      e.stopPropagation();
+      startChapter(id, { transient: true });
+    });
+    card.querySelector('[data-act="edit"]').addEventListener('click', e => {
+      e.stopPropagation();
+      editChapterInWorkshop(id);
+    });
+    card.querySelector('[data-act="del"]').addEventListener('click', e => {
+      e.stopPropagation();
+      confirmDeleteChapter(id);
+    });
+
+    box.appendChild(card);
   });
 }
 
+function editChapterInWorkshop(id){
+  const ch = Game.chapters[id];
+  if(!ch) return;
+  const code = 'Game.defineChapter(' + JSON.stringify(ch, null, 2) + ');';
+  $('#code').value = code;
+  setView('workshop');
+  showMsg('已把「' + (ch.title || id) + '」的代码载入上方文本框。改完点「应用 / 覆盖」即可更新。', 'info');
+}
+
+function confirmDeleteChapter(id){
+  const ch = Game.chapters[id];
+  if(!ch) return;
+  const name = ch.title || id;
+  if(!confirm('确定要删除「' + name + '」吗？\n（导入的内容会一并清除，无法撤销）')) return;
+
+  // 从引擎里移除
+  Game.removeChapter(id);
+
+  // 从用户导入里移除对应记录
+  const before = userDefs.length;
+  userDefs = userDefs.filter(rec => {
+    const ids = sniffIds(rec.code);
+    return ids.indexOf(id) < 0;
+  });
+  if(userDefs.length !== before) persistUserDefs();
+
+  // 标记为已删除（防止内置章节刷新后复活）
+  deletedChapters.add(id);
+  persistDeleted();
+
+  // 若当前正在玩它，退回副本列表
+  if(S.chId === id){
+    S.chId = null; S.node = null; S.ended = true; S.transient = true;
+    hideOverlay();
+  }
+
+  renderSideList();
+  renderChapterList();
+  renderEndings();
+  renderRecords();
+  toast('已删除「' + name + '」');
+}
+
+/* ══════════════════ 结局 ══════════════════ */
 function renderEndings(){
   const grid = $('#edGrid');
   grid.innerHTML = '';
@@ -1171,8 +1492,7 @@ function renderEndings(){
     if(on) got++;
     const card = document.createElement('div');
     card.className = 'ed-card ' + (on ? 'unlocked' : 'locked');
-    const sideTag = meta.mode === 'side'
-      ? '<span class="ed-tag">副本</span>' : '';
+    const sideTag = meta.mode === 'side' ? '<span class="ed-tag">副本</span>' : '';
     card.innerHTML = sideTag +
       '<b>' + (on ? esc(meta.name || id) : '？？？') + '</b>' +
       '<p>' + (on ? esc(meta.desc || '') : '尚未抵达的结局。') + '</p>' +
@@ -1182,6 +1502,7 @@ function renderEndings(){
   $('#edCount').textContent = '已解锁 ' + got + ' / ' + ids.length + ' 个结局。';
 }
 
+/* ══════════════════ 状态 ══════════════════ */
 function renderStatus(){
   const box = $('#stRows');
   box.innerHTML = '';
@@ -1203,7 +1524,7 @@ function renderStatus(){
   extra.textContent =
     '已解锁结局：' + unlockedEndings.size + ' 个 ｜ ' +
     '主线章节：' + mainChapterIds().length + ' 章 ｜ ' +
-    '羁绊模块：' + chaptersByMode('bond').length + ' 个 ｜ ' +
+    '羁绊话题：' + bondSeen.size + ' / ' + BOND_TOPICS.length + ' 个 ｜ ' +
     '副本：' + chaptersByMode('side').length + ' 个';
   box.appendChild(extra);
 }
@@ -1250,14 +1571,17 @@ function renderRecords(){
   });
 }
 
-/* 猜测代码包里定义了哪些章节 id（用于给记录起名） */
-function sniffLabel(code){
+function sniffIds(code){
   const ids = [];
   const re = /id\s*:\s*['"]([^'"]+)['"]/g;
   let m;
   while((m = re.exec(code)) !== null){
     if(ids.indexOf(m[1]) < 0) ids.push(m[1]);
   }
+  return ids;
+}
+function sniffLabel(code){
+  const ids = sniffIds(code);
   return ids.length ? ids.slice(0, 3).join(', ') : '未命名代码包';
 }
 
@@ -1265,7 +1589,6 @@ $('#btnApply').addEventListener('click', () => {
   const code = $('#code').value.trim();
   if(!code){ showMsg('先粘贴一段代码吧。', 'err'); return; }
 
-  // 先在沙箱里跑一遍，确保语法和结构都正确
   const probe = {};
   const probeGame = {
     defineChapter(def){
@@ -1286,7 +1609,6 @@ $('#btnApply').addEventListener('click', () => {
     return;
   }
 
-  // 落盘
   const rec = {
     key: 'pkg_' + Date.now() + '_' + Math.random().toString(36).slice(2,7),
     label: sniffLabel(code),
@@ -1296,8 +1618,14 @@ $('#btnApply').addEventListener('click', () => {
   userDefs.push(rec);
   persistUserDefs();
 
-  // 立刻生效
-  ids.forEach(id => Game.defineChapter(probe[id]));
+  ids.forEach(id => {
+    // 如果这个 id 之前被标记为删除，重新导入就取消删除
+    if(deletedChapters.has(id)){
+      deletedChapters.delete(id);
+    }
+    Game.defineChapter(probe[id]);
+  });
+  persistDeleted();
 
   const list = ids.join(' / ');
   showMsg('✔ 导入成功，已永久保存。生效章节：' + list +
@@ -1305,11 +1633,10 @@ $('#btnApply').addEventListener('click', () => {
 
   renderRecords();
   renderChapterList();
-  renderBondList();
+  renderBondTab();
   renderSideList();
   renderEndings();
 
-  // 如果当前正卡在某个章节的结尾弹层，刷新一下「继续」按钮
   if(S.ended) refreshEndingOverlay();
 });
 
@@ -1377,10 +1704,9 @@ Game.defineChapter({
 
 $('#btnTplSide').addEventListener('click', () => {
   $('#code').value =
-`/* ── 副本 / 羁绊模板 ──
+`/* ── 副本模板 ──
    mode:'side' → 出现在「副本」页，独立游玩，不影响主线存档
-   mode:'bond' → 出现在「羁绊」页，用来做日常互动
-   两者都可以带 id 覆盖更新。 */
+   导入后可以在「副本」页直接编辑或删除。 */
 Game.defineChapter({
   id: 'side_demo',
   order: 900,
@@ -1442,9 +1768,11 @@ $('#btnImportAll').addEventListener('click', () => {
   });
   persistUserDefs();
   applyUserDefs();
+  deletedChapters.clear();
+  persistDeleted();
   renderRecords();
   renderChapterList();
-  renderBondList();
+  renderBondTab();
   renderSideList();
   renderEndings();
   showMsg('✔ 成功导入 ' + ok + ' 个代码包，已永久保存。', 'ok');
@@ -1486,12 +1814,22 @@ stage.addEventListener('click', () => {
   advance();
 });
 
+/* 羁绊气泡点击推进 */
+$('#bondChatWrap').addEventListener('click', () => {
+  advanceBondChat();
+});
+
 document.addEventListener('keydown', e => {
   if(e.key === ' ' || e.key === 'Enter'){
-    if(!$('#v-story').classList.contains('is-on')) return;
+    if(!$('#v-story').classList.contains('is-on') &&
+       !$('#v-bond').classList.contains('is-on')) return;
     if(document.activeElement && document.activeElement.tagName === 'TEXTAREA') return;
     e.preventDefault();
-    if(!S.awaiting && !S.ended) advance();
+    if($('#v-story').classList.contains('is-on')){
+      if(!S.awaiting && !S.ended) advance();
+    }else{
+      advanceBondChat();
+    }
   }
   if(e.key === 'Backspace'){
     if(document.activeElement && document.activeElement.tagName === 'TEXTAREA') return;
@@ -1501,7 +1839,124 @@ document.addEventListener('keydown', e => {
   }
 });
 
-Game.on(() => { /* 预留：章节变更时的全局刷新 */ });
+Game.on(() => { /* 预留 */ });
+
+/* ════════════════════════════════════════════════════════════
+   ★ 羁绊话题库
+   ════════════════════════════════════════════════════════════ */
+const BOND_TOPICS = [
+  {
+    id: 'bt_why',
+    need: 0,
+    reward: 2,
+    name: '「你为什么来中国？」',
+    lines: [
+      { who:'卡什', x:"Long story, roomie.", tr:'说来话长，室友。' },
+      { who:'卡什', x:"My old man got tired of me maxing out his cards.", tr:'我爸被我刷爆卡刷烦了。' },
+      { who:'卡什', x:"So he shipped me over here. 'International expansion', he said.", tr:'然后就把我打包扔过来了。他说这叫“国际拓展”。' },
+      { who:'卡什', x:"Whatever. At least the rent's cheap.", tr:'随便吧。至少房租便宜。' },
+      { who:'卡什', x:"...Don't tell him I said that.", tr:'……别告诉他我说过这话。' }
+    ]
+  },
+  {
+    id: 'bt_glasses',
+    need: 0,
+    reward: 2,
+    name: '「你的墨镜，为什么一直戴着？」',
+    lines: [
+      { who:'卡什', x:"Fashion, obviously.", tr:'当然是时尚啊。' },
+      { who:'卡什', x:"What, you don't like it? Too bad.", tr:'怎么，你不喜欢？忍着。' },
+      { who:'你', x:'……没有，就是好奇。' },
+      { who:'卡什', x:"Everyone's curious about something.", tr:'每个人都会对什么东西好奇。' },
+      { who:'卡什', x:"Let's keep it that way, alright?", tr:'就这样保持吧，好吗？' }
+    ]
+  },
+  {
+    id: 'bt_bike',
+    need: 4,
+    reward: 2,
+    name: '「你那辆机车……」',
+    lines: [
+      { who:'卡什', x:"Oh, you noticed?", tr:'哦，你注意到了？' },
+      { who:'卡什', x:"Red. Custom paint. Took me two months to get it right.", tr:'红色，定制涂装。花了两个月才调对。' },
+      { who:'卡什', x:"Best thing I brought from home.", tr:'是我从家里带过来的最好的东西。' },
+      { who:'卡什', x:"Wanna ride sometime? I drive fast.", tr:'想不想哪天出去兜一圈？我开很快的。' },
+      { who:'你', x:'……多快？' },
+      { who:'卡什', x:"Fast enough to make you forget your name.", tr:'快到让你连自己叫什么都忘了。' },
+      { who:'卡什', x:"...Kidding. Mostly.", tr:'……开玩笑的。大部分是。' }
+    ]
+  },
+  {
+    id: 'bt_work',
+    need: 8,
+    reward: 2,
+    name: '「你平时都干什么？」',
+    lines: [
+      { who:'卡什', x:"Me? Whatever I want.", tr:'我？想干嘛就干嘛。' },
+      { who:'卡什', x:"Okay, okay. I do some consulting stuff. Remote.", tr:'好吧好吧。我做一些咨询类的活儿。远程。' },
+      { who:'卡什', x:"Boring as hell, but it pays the bills.", tr:'无聊得要死，但能付账单。' },
+      { who:'卡什', x:"Rest of the time? Bars, road trips, parties.", tr:'剩下的时间？酒吧、公路旅行、派对。' },
+      { who:'卡什', x:"You should come out with me sometime. You look like you need it.", tr:'你该哪天跟我出去转转。你看起来需要这个。' }
+    ]
+  },
+  {
+    id: 'bt_ex',
+    need: 12,
+    reward: 2,
+    name: '「你以前谈过恋爱吗？」',
+    lines: [
+      { who:'卡什', x:"...", tr:'……' },
+      { who:'卡什', x:"That's a heavy question for a Tuesday.", tr:'周二问这个有点沉重。' },
+      { who:'卡什', x:"Yeah. Lots. None of them meant anything.", tr:'谈过。很多次。没一次当真的。' },
+      { who:'卡什', x:"I don't do... commitment. You know?", tr:'我不搞……承诺那一套。你懂吧？' },
+      { who:'卡什', x:"People get bored of me. I get bored of them. It's fair.", tr:'别人会腻我，我也会腻别人。挺公平的。' },
+      { who:'卡什', x:"...Why are you looking at me like that?", tr:'……你干嘛那样看我？' }
+    ]
+  },
+  {
+    id: 'bt_stay',
+    need: 18,
+    reward: 3,
+    name: '「你会一直住在这里吗？」',
+    lines: [
+      { who:'卡什', x:"Huh. Never thought about it.", tr:'哈。没想过。' },
+      { who:'卡什', x:"I don't usually plan that far ahead.", tr:'我一般不计划那么远的事。' },
+      { who:'卡什', x:"But... I like it here. The quiet. The space.", tr:'不过……我喜欢这儿。安静，宽敞。' },
+      { who:'卡什', x:"...And the company's not bad either.", tr:'……而且室友也不赖。' },
+      { who:'卡什', x:"Don't let that go to your head.", tr:'别得意。' }
+    ]
+  },
+  {
+    id: 'bt_you',
+    need: 25,
+    reward: 3,
+    name: '「你觉得我是个什么样的人？」',
+    lines: [
+      { who:'卡什', x:"Hmm.", tr:'嗯。' },
+      { who:'卡什', x:"Quiet. Careful. You think too much.", tr:'安静。小心。想太多。' },
+      { who:'卡什', x:"But you're not boring. I can tell.", tr:'但你不无聊。我看得出来。' },
+      { who:'卡什', x:"You got that look, like you're always bracing for something.", tr:'你有一种表情，像总在防备着什么。' },
+      { who:'卡什', x:"...I get that. More than you'd think.", tr:'……我懂。比你想象的懂。' },
+      { who:'卡什', x:"Anyway. My turn next time.", tr:'行了。下次换你答。' }
+    ]
+  },
+  {
+    id: 'bt_secret',
+    need: 35,
+    reward: 4,
+    name: '「你有没有什么不想让人知道的事？」',
+    lines: [
+      { who:'卡什', x:"...", tr:'……' },
+      { who:'卡什', x:"You're really asking that?", tr:'你真要问这个？' },
+      { who:'卡什', x:"Okay. Fine. One thing.", tr:'行。好吧。就一件。' },
+      { who:'卡什', x:"I can't see very well. Glasses aren't just for show.", tr:'我视力不太好。墨镜不只是为了好看。' },
+      { who:'卡什', x:"Half a meter out, everyone's a blur to me.", tr:'半米之外，我看谁都是一团糊。' },
+      { who:'卡什', x:"...Don't make it weird, alright?", tr:'……别搞得怪怪的，行吗？' },
+      { who:'你', x:'……嗯。' },
+      { who:'卡什', x:"Thanks.", tr:'谢了。' }
+    ]
+  }
+];
 
 /* ════════════════════════════════════════════════════════════
    ★ 内置章节
@@ -1633,97 +2088,6 @@ Game.defineChapter({
   }
 });
 
-/* ─────────── 羁绊 · 卡什 ─────────── */
-Game.defineChapter({
-  id: 'bond',
-  order: 100,
-  mode: 'bond',
-  title: '羁绊 · 卡什',
-  subtitle: '客厅 · 沙发 · 和一个赖着不走的金毛',
-  start: 'hub',
-
-  nodes: {
-    hub: {
-      clear: true,
-      steps: [
-        { t:'n', x:'卡什窝在沙发里，长腿翘在茶几上，电视开着，但没人在看。' },
-        { t:'n', x:'他听见你出来，把墨镜往下扒了半寸。' },
-        { t:'s', who:'卡什', x:"Sup, roomie?", tr:'咋了，室友？' },
-        { t:'c', x:'做点什么？', o: [
-          { l:'坐下来聊会儿天', to:'chat' },
-          { l:'拉他出门兜风',   to:'ride' },
-          { l:'给他弄点吃的',   to:'food' },
-          { l:'伸手摘他的墨镜', to:'glasses' }
-        ]}
-      ]
-    },
-
-    chat: {
-      clear: true,
-      steps: [
-        { t:'n', x:'你在他旁边坐下。沙发陷下去一块。' },
-        { t:'s', who:'卡什', x:"You look like you got something on your mind.", tr:'你看起来像是有心事。' },
-        { t:'s', who:'你', x:'没有，就是无聊。' },
-        { t:'s', who:'卡什', x:"Bored? Boring is a choice, roomie.", tr:'无聊？无聊是一种选择，室友。' },
-        { t:'s', who:'卡什', x:"C'mon. Ask me something. Anything.", tr:'来吧。问我点什么。随便什么都行。' },
-        { t:'n', x:'他整个人转过来面对你，膝盖几乎要碰到你的膝盖。' },
-        { t:'n', x:'那股海盐和柑橘的味道又飘过来了。' },
-        { t:'fx', fx:{ bond: 2 } }
-      ],
-      next: 'hub'
-    },
-
-    ride: {
-      clear: true,
-      steps: [
-        { t:'n', x:'你把他的机车钥匙从茶几上拿起来，在他面前晃了晃。' },
-        { t:'s', who:'卡什', x:"Oh hell yes.", tr:'哦，那必须的。' },
-        { t:'n', x:'他从沙发上弹起来的速度快得离谱，墨镜一秒归位，人已经在门口了。' },
-        { t:'s', who:'卡什', x:"Helmet. Now. Move it, roomie.", tr:'头盔。现在。快点，室友。' },
-        { t:'n', x:'十分钟后你坐在后座上，风把眼睛吹得睁不开。' },
-        { t:'n', x:'他开得又快又野，拐弯的时候整个人压下去，你不得不抱紧他的腰。' },
-        { t:'n', x:'他在风里回头，喊了句什么，你没听清。' },
-        { t:'n', x:'但你看见他笑了。' },
-        { t:'fx', fx:{ bond: 4, mood: 6, energy: -8 } }
-      ],
-      next: 'hub'
-    },
-
-    food: {
-      clear: true,
-      steps: [
-        { t:'n', x:'你翻了翻冰箱，只剩两个鸡蛋和一包泡面。' },
-        { t:'n', x:'你煮了面，煎了蛋，端出去放在他面前。' },
-        { t:'n', x:'卡什盯着那碗面看了三秒。' },
-        { t:'s', who:'卡什', x:"...You made this? For me?", tr:'……你做的？给我？' },
-        { t:'s', who:'你', x:'不吃拉倒。' },
-        { t:'n', x:'他一把把碗捞过去，吃得狼吞虎咽，连汤都喝干净了。' },
-        { t:'s', who:'卡什', x:"Okay. Okay. You're my favorite person in this entire country.", tr:'行。行吧。你是我在这个国家最喜欢的人。' },
-        { t:'n', x:'他抹了抹嘴，眼巴巴地看着你。' },
-        { t:'s', who:'卡什', x:"...Is there more?", tr:'……还有吗？' },
-        { t:'fx', fx:{ bond: 3, mood: 3 } }
-      ],
-      next: 'hub'
-    },
-
-    glasses: {
-      clear: true,
-      steps: [
-        { t:'n', x:'你伸手去摘他的墨镜。' },
-        { t:'n', x:'他的反应快得惊人——整个人往后一仰，同时抬手攥住了你的手腕。' },
-        { t:'s', who:'卡什', x:"Whoa. Hands off, that's my face.", tr:'喂。手拿开，那是我的脸。' },
-        { t:'n', x:'他的力气很大，你抽不回来。' },
-        { t:'n', x:'隔着一层镜片，你看不清他在看哪里，但他半天没松手。' },
-        { t:'s', who:'卡什', x:"...Don't do that again.", tr:'……别再这样了。' },
-        { t:'n', x:'他的语气很轻，轻得不像他。' },
-        { t:'n', x:'然后他松开手，重新靠回沙发，好像什么都没发生过。' },
-        { t:'fx', fx:{ bond: 1, insight: 5 } }
-      ],
-      next: 'hub'
-    }
-  }
-});
-
 /* ─────────── 副本 · 十三层 ─────────── */
 Game.defineChapter({
   id: 'side_13f',
@@ -1814,7 +2178,10 @@ Game.defineChapter({
 
 /* ══════════════════ 启动流程 ══════════════════ */
 loadUserDefs();
+loadDeleted();
+loadBondSeen();
 applyUserDefs();
+applyDeleted();
 
 loadStores();
 S.attrs = freshAttrs();
@@ -1837,7 +2204,7 @@ if(!resumed){
 }
 
 renderChapterList();
-renderBondList();
+renderBondTab();
 renderSideList();
 renderEndings();
 renderRecords();
