@@ -212,6 +212,48 @@ body{
 }
 .p-sub{font-size:12px;color:var(--ink3);margin:0 0 16px;line-height:1.7}
 
+/* 羁绊面板顶部标题行（含编辑模式开关） */
+.bond-head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin:6px 0 10px;
+}
+.bond-head h2{
+  font-size:15px;font-weight:600;color:var(--ink);margin:0;
+  display:flex;align-items:center;gap:8px;
+}
+.bond-head h2::before{
+  content:'';width:3px;height:15px;border-radius:2px;
+  background:linear-gradient(180deg,var(--accent-lite),var(--accent));
+}
+.bond-edit-toggle{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:inherit;font-size:11.5px;
+  color:var(--ink3);
+  background:rgba(255,255,255,.6);
+  border:1px solid rgba(160,200,235,.35);
+  border-radius:999px;
+  padding:5px 11px;cursor:pointer;transition:.18s;
+  letter-spacing:.3px;
+}
+.bond-edit-toggle:hover{
+  color:var(--accent-deep);
+  border-color:rgba(110,170,220,.6);
+  background:#fff;
+}
+.bond-edit-toggle .dot{
+  width:7px;height:7px;border-radius:50%;
+  background:#c8d6e4;transition:.18s;
+}
+.bond-edit-toggle.on{
+  color:#a04a4a;
+  border-color:rgba(240,170,170,.6);
+  background:rgba(255,245,245,.9);
+}
+.bond-edit-toggle.on .dot{
+  background:#d98b8b;
+  box-shadow:0 0 0 3px rgba(240,170,170,.22);
+}
+
 .ch-list{display:flex;flex-direction:column;gap:9px}
 .ch-card{
   display:flex;align-items:center;gap:14px;padding:15px 17px;
@@ -237,7 +279,7 @@ body{
 
 .bond-hero{
   display:flex;flex-direction:column;align-items:center;
-  padding:20px 0 16px;margin:-4px 0 16px;
+  padding:20px 0 16px;margin:-4px 0 12px;
   border-radius:18px;
   background:linear-gradient(180deg,rgba(255,240,214,.55),rgba(255,255,255,0) 92%);
   position:relative;overflow:hidden;
@@ -306,7 +348,7 @@ body{
 }
 @keyframes hintPulse{0%,100%{opacity:.45;}50%{opacity:1;}}
 .bond-topics{display:flex;flex-direction:column;gap:8px;margin-top:6px;}
-.bond-topic-row{display:flex;gap:6px;}
+.bond-topic-row{display:flex;gap:6px;align-items:stretch;}
 .bond-topic{
   flex:1;min-width:0;font-family:inherit;text-align:left;
   background:#fff;border:1px solid var(--line);border-radius:13px;
@@ -333,8 +375,15 @@ body{
   border:1px solid rgba(240,170,170,.5);background:#fff;color:#b98a8a;
   cursor:pointer;font-size:15px;font-family:inherit;
   transition:.16s;
+  display:none;
 }
+.bond-edit-on .bond-del{display:block;}
 .bond-del:hover{background:rgba(240,170,170,.2);color:#a04a4a;border-color:#d98b8b;}
+
+/* 编辑模式下话题卡片轻微提示 */
+.bond-edit-on .bond-topic{
+  border-color:rgba(240,170,170,.28);
+}
 
 .side-card{
   display:flex;align-items:center;gap:12px;
@@ -541,11 +590,18 @@ body{
     </section>
 
     <section class="view" id="v-bond">
-      <div class="panel">
+      <div class="panel" id="bondPanel">
         <div class="bond-hero" id="bondHero"></div>
         <div class="bond-chat-wrap" id="bondChatWrap"></div>
-        <h2 class="p-title" style="margin-top:6px">可以聊的话题</h2>
-        <p class="p-sub">好感越高，能聊的就越多。第一次聊完会涨好感。<br>话题也可以像章节一样在工坊里导入 / 覆盖 / 删除。</p>
+
+        <div class="bond-head">
+          <h2>可以聊的话题</h2>
+          <button class="bond-edit-toggle" id="bondEditToggle" title="开启后可删除话题">
+            <span class="dot"></span><span class="lbl">编辑</span>
+          </button>
+        </div>
+        <p class="p-sub">好感越高，能聊的就越多。第一次聊完会涨好感。<br>
+          话题可以在工坊里导入 / 覆盖 / 删除。</p>
         <div class="bond-topics" id="bondTopics"></div>
       </div>
     </section>
@@ -589,8 +645,8 @@ Game.defineChapter({ id:'ch02', order:2, title:'第二章 · 涨潮', start:'a',
 Game.defineBondTopic({
   id: 'bt_new',
   order: 10,
-  need: 5,           // 好感度解锁门槛 0~100
-  reward: 2,         // 第一次聊完加多少好感
+  need: 5,
+  reward: 2,
   name: '「话题名」',
   lines: [
     { who:'卡什', x:'English.', tr:'中文翻译。' },
@@ -678,7 +734,6 @@ const Game = {
   on(fn){ Game._listeners.push(fn); },
   _emit(){ Game._listeners.forEach(f => { try{ f(); }catch(e){} }); },
 
-  /* ── 注册 / 覆盖章节 ── */
   defineChapter(def){
     if(!def || !def.id) throw new Error('章节定义缺少 id 字段');
     if(!def.nodes || !def.start) throw new Error('章节 ' + def.id + ' 缺少 nodes 或 start');
@@ -714,7 +769,6 @@ const Game = {
     Game._emit();
   },
 
-  /* ── 注册 / 覆盖羁绊话题 ── */
   defineBondTopic(def){
     if(!def || !def.id) throw new Error('羁绊话题缺少 id 字段');
     if(!Array.isArray(def.lines)) throw new Error('羁绊话题 ' + def.id + ' 缺少 lines 数组');
@@ -760,13 +814,13 @@ function allBondTopics(){
 }
 
 /* ══════════════════ 持久化 ══════════════════ */
-const DEF_KEY       = 'tides_user_defs_v5';
-const DEL_KEY       = 'tides_deleted_v5';
-const DEL_BOND_KEY  = 'tides_deleted_bond_v5';
-const BOND_KEY      = 'tides_bond_seen_v5';
-const END_KEY       = 'tides_endings_v5';
-const PROG_KEY      = 'tides_progress_v5';
-const SAVE_KEY      = 'tides_save_v5';
+const DEF_KEY       = 'tides_user_defs_v6';
+const DEL_KEY       = 'tides_deleted_v6';
+const DEL_BOND_KEY  = 'tides_deleted_bond_v6';
+const BOND_KEY      = 'tides_bond_seen_v6';
+const END_KEY       = 'tides_endings_v6';
+const PROG_KEY      = 'tides_progress_v6';
+const SAVE_KEY      = 'tides_save_v6';
 
 let userDefs = [];
 let deletedChapters = new Set();
@@ -861,6 +915,7 @@ let history = [];
 let autoTimer = null;
 
 let bondChat = { lines: [], idx: 0, topicId: null };
+let bondEditMode = false;  // 羁绊编辑模式开关（默认关闭，不显示 ✕）
 
 function freshAttrs(){
   const o = {};
@@ -1332,7 +1387,18 @@ function renderBondTab(){
   const hero = $('#bondHero');
   const wrap = $('#bondChatWrap');
   const topicsBox = $('#bondTopics');
+  const panel = $('#bondPanel');
+  const toggle = $('#bondEditToggle');
   if(!hero) return;
+
+  // 编辑模式：切换面板 class 与按钮状态
+  if(panel) panel.classList.toggle('bond-edit-on', bondEditMode);
+  if(toggle){
+    toggle.classList.toggle('on', bondEditMode);
+    const lbl = toggle.querySelector('.lbl');
+    if(lbl) lbl.textContent = bondEditMode ? '完成' : '编辑';
+    toggle.title = bondEditMode ? '退出编辑模式' : '开启后可删除话题';
+  }
 
   const bond = Math.round(S.attrs.bond ?? 0);
   let mood = '看起来还没睡醒';
@@ -1941,6 +2007,13 @@ stage.addEventListener('click', () => {
 
 $('#bondChatWrap').addEventListener('click', () => {
   advanceBondChat();
+});
+
+/* 编辑模式开关 */
+$('#bondEditToggle').addEventListener('click', () => {
+  bondEditMode = !bondEditMode;
+  renderBondTab();
+  toast(bondEditMode ? '已开启编辑模式' : '已退出编辑模式');
 });
 
 document.addEventListener('keydown', e => {
